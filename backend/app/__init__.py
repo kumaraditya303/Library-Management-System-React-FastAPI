@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .db import Book, User, database
+from .db import Book, User, database, engine, metadata
 from .views import router
 
 
@@ -27,6 +27,7 @@ async def create_dummy():
 
 app = FastAPI(
     on_startup=[database.connect, create_dummy],
+    on_shutdown=[lambda: metadata.drop_all(engine)],
 )
 app.add_middleware(
     CORSMiddleware,

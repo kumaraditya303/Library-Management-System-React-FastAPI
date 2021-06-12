@@ -93,10 +93,11 @@ function EnhancedTableHead(props: EnhancedTableHeadProps) {
     rowCount,
     onRequestSort,
   } = props;
-  const createSortHandler =
-    (property: string) => (event: React.MouseEvent<HTMLSpanElement>) => {
-      onRequestSort(event, property);
-    };
+  const createSortHandler = (property: string) => (
+    event: React.MouseEvent<HTMLSpanElement>
+  ) => {
+    onRequestSort(event, property);
+  };
 
   return (
     <TableHead>
@@ -370,14 +371,18 @@ export default function HomePageTable() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      setSelected(books.map((book) => book.id));
+      setSelected(
+        books
+          .filter((book) => book.available_copies !== 0)
+          .map((book) => book.id)
+      );
       return;
     }
     setSelected([]);
   };
 
   const handleClick = (id: number) => {
-    if (books.filter((row) => row.id === id)[0].available_copies === 0) {
+    if (books.filter((book) => book.id === id)[0].available_copies === 0) {
       return;
     }
     const selectedIndex = selected.indexOf(id);
@@ -419,7 +424,7 @@ export default function HomePageTable() {
   };
   if (isIssuePage) {
     history.push("/issue/", {
-      books: books.filter((row) => selected.includes(row.id)),
+      books: books.filter((book) => selected.includes(book.id)),
     });
   }
 
@@ -446,18 +451,21 @@ export default function HomePageTable() {
               {!loading ? (
                 stableSort(books, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
+                  .map((book) => {
                     if (
-                      row.name.toUpperCase().indexOf(search.toUpperCase()) < 0
-                    ) {
+                      book.name.toUpperCase().indexOf(search.toUpperCase()) <
+                        0 &&
+                      book.author.toUpperCase().indexOf(search.toUpperCase()) <
+                        0
+                    )
                       return null;
-                    }
-                    const isItemSelected = isSelected(row.id);
+
+                    const isItemSelected = isSelected(book.id);
                     return (
                       <EnhancedTableRow
-                        key={row.id}
+                        key={book.id}
                         isItemSelected={isItemSelected}
-                        row={row}
+                        row={book}
                         handleClick={handleClick}
                       />
                     );

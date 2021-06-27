@@ -1,11 +1,14 @@
 import Paper from "@material-ui/core/Paper";
+import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import HomePage from "./components/Homepage";
-import HomepageAppBar from "./components/HomepageAppBar";
-import IssueBooksPage from "./components/IssueBooksPage";
-import LoginPage from "./components/LoginPage";
-import RegisterPage from "./components/RegisterPage";
 import PrivateRoute from "./utils/PrivateRoute";
+
+const HomePage = React.lazy(() => import("./components/Homepage"));
+const HomepageAppBar = React.lazy(() => import("./components/HomepageAppBar"));
+const IssueBooksPage = React.lazy(() => import("./components/IssueBooksPage"));
+const LoginPage = React.lazy(() => import("./components/LoginPage"));
+const RegisterPage = React.lazy(() => import("./components/RegisterPage"));
+
 export default function App() {
   return (
     <Paper style={{ height: "auto", minHeight: "100vh" }} square>
@@ -15,8 +18,12 @@ export default function App() {
           <PrivateRoute exact path="/">
             <HomePage />
           </PrivateRoute>
-          <Route exact path="/login/" component={LoginPage}></Route>
-          <Route exact path="/register/" component={RegisterPage}></Route>
+          <Route exact path="/login/">
+            <LoginPage />
+          </Route>
+          <Route exact path="/register/">
+            <RegisterPage />
+          </Route>
           <PrivateRoute exact path="/issue/">
             <IssueBooksPage />
           </PrivateRoute>

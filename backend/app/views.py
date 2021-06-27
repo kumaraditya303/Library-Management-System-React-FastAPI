@@ -81,6 +81,6 @@ async def register_user(form: UserRegisterSchema):
     return {"access_token": encode_jwt(user.id)}
 
 
-@router.get("/me/", response_model=User, response_model_exclude={"password"})
+@router.get("/me/", response_model=User, response_model_exclude={"password","issued_books__issuer"})
 async def me(user=Depends(current_user)):
     return user

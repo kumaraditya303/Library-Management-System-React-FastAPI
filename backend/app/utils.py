@@ -49,7 +49,7 @@ async def current_user(
     credentials: HTTPAuthorizationCredentials = Depends(JWTBearer()),
 ) -> User:
     user_id = decode_jwt(credentials.credentials)["user_id"]
-    user = await User.objects.get_or_none(id=user_id)
+    user = await User.objects.select_related("issued_books").get_or_none(id=user_id)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

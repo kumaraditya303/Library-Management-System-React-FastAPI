@@ -2,4 +2,4 @@ import binascii
 import os
 
 SALT = binascii.hexlify(os.urandom(32))
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:////test.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///__pycache__/test.db")

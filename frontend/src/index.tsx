@@ -1,6 +1,6 @@
 import "@fontsource/roboto";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
-import React from "react";
+import { CircularProgress, createMuiTheme, ThemeProvider } from "@material-ui/core";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import App from "./App";
@@ -15,7 +15,9 @@ const darkTheme = createMuiTheme({
 ReactDOM.render(
   <ThemeProvider theme={darkTheme}>
     <Provider store={store}>
-      <App />
+      <Suspense fallback={<CircularProgress />}>
+        <App />
+      </Suspense>
     </Provider>
   </ThemeProvider>,
   document.getElementById("root")

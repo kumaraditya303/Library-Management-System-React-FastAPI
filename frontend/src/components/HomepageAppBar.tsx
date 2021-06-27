@@ -31,6 +31,7 @@ export default function HomepageAppBar() {
     },
   }));
   const classes = useStyles();
+  console.log(user)
   return (
     <AppBar position="static" color="transparent">
       <Toolbar>
@@ -38,7 +39,10 @@ export default function HomepageAppBar() {
           {user ? `Welcome ${user.name}` : "Library Management System"}
         </Typography>
         {user ? (
-          <div>
+          <>
+            <Button component={Link} to={"/return/"}>
+              Return Books
+            </Button>
             <IconButton
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -67,7 +71,7 @@ export default function HomepageAppBar() {
                 <Button onClick={() => dispatch(authLogout())}>Logout</Button>
               </MenuItem>
             </Menu>
-          </div>
+          </>
         ) : (
           <>
             <Button component={Link} to={"/"}>
